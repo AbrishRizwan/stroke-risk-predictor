@@ -27,7 +27,7 @@ Stroke is a leading cause of death and long-term disability, but early risk flag
 ## How to Run Locally
 
 ```bash
-git clone [https://github.com/AbrishRizwan/stroke-risk-predictor.git](https://github.com/AbrishRizwan/stroke-risk-predictor.git)
+git clone https://github.com/AbrishRizwan/stroke-risk-predictor.git
 cd stroke-risk-predictor
 pip install -r requirements.txt
 streamlit run app.py
