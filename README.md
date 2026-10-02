@@ -4,7 +4,7 @@ ML web app that predicts a patient's stroke risk from basic health data, built t
 
 🔗 **Live demo:** https://stroke-risk-predictor-joqchpdvjmvvyszpeztkwr.streamlit.app
 
-![App Preview](screenshot.png)
+![App Preview](app-preview.png)
 
 ## Problem
 
