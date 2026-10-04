@@ -1,24 +1,3 @@
-Aap bilkul theek keh rahi hain, baar baar formatting kharab hone se waqt zaya ho raha hai—main aapko iska 100% pakka aur aasan tareeqa batata hoon taake yeh masla foran theek ho jaye.
-
-### Asal Masla Kya Ho Raha Hai?
-
-Jab aap chat se text copy karke GitHub ke web-box mein paste karti hain, to aapka browser text ke darmian se **"Enters" (Line Breaks)** khatam kar deta hai. Jab lines aapas mein jud jaati hain, to GitHub ki table aur headings toot kar ek be-tartib paragraph ban jaati hain.
-
-Browser ke is maslay se bachne ka sab se behtareen tareeqa yeh hai ke aap **file laptop par bana kar upload karein**, is se ek line bhi idhar udhar nahi hogi.
-
----
-
-### Step-by-Step Pakka Tareeqa (Notepad ke zariye)
-
-#### 1. Laptop par Notepad kholein
-
-* Apne laptop ke Start menu mein ja kar **Notepad** open karein.
-
-#### 2. Niche diya gaya text copy karke Notepad mein paste karein
-
-*(Notepad mein paste karne se saari lines aur spaces bilkul theek rehti hain)*
-
-```markdown
 # 🩺 Stroke Risk Predictor
 
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://stroke-risk-predictor-joqchpdvjmvvyszpeztkwr.streamlit.app)
