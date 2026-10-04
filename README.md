@@ -1,33 +1,39 @@
-# Stroke Risk Predictor
+# 🩺 Stroke Risk Predictor
 
-ML web app that predicts a patient's stroke risk from basic health data, built to help flag high-risk cases early.
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://stroke-risk-predictor-joqchpdvjmvvyszpeztkwr.streamlit.app)
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 
-🔗 **Live demo:** https://stroke-risk-predictor-joqchpdvjmvvyszpeztkwr.streamlit.app
+An end-to-end machine learning web application that screens patient vitals and flags elevated stroke risk for early clinical triage.
+
+🔗 **Live Application:** https://stroke-risk-predictor-joqchpdvjmvvyszpeztkwr.streamlit.app
 
 ![App Preview](app-preview.png)
+📌 Problem & Motivation
+Stroke is a leading cause of mortality and long-term disability worldwide. While routine clinical indicators (age, average glucose levels, BMI, hypertension) contain early predictive signals, medical datasets suffer from extreme class imbalance (~4.87% positive prevalence).
 
-## Problem
+Standard out-of-the-box classification models default to maximizing overall accuracy, leading to severe false negative rates (missed stroke patients). This project optimizes clinical sensitivity by calibrating decision thresholds to ensure high-risk cases are flagged early for screening.
+📊 Model Performance & Threshold Tuning
+Trained on 5,110 records from the Kaggle Stroke Dataset across 15 preprocessed features. Because class prevalence is low (~4.87%), accuracy alone is misleading: a trivial model predicting "No Stroke" for everyone achieves ~95.1% accuracy while detecting zero stroke cases.
 
-Stroke is a leading cause of death and long-term disability, but early risk flags from basic health indicators (age, glucose level, hypertension, etc.) can help prioritize patients for further screening. This app takes patient data as input and outputs a stroke risk prediction.
+Test Set Evaluation (1,022 Patients | 50 Positive Cases)
+MetricDefault Baseline (0.50 Threshold)Calibrated (0.30 Threshold)Operational ImpactRecall (Sensitivity)18.0% (9/50 caught)60.0% (30/50 caught)+233% increase in high-risk patient capturePrecision18.0%14.0%Acceptable trade-off for non-invasive screeningOverall Accuracy92.0%80.4%Reflects proactive flagging over passive guessingROC-AUC Score0.800.80Robust discriminative ranking power across classesKey Clinical Takeaway: In preliminary risk screening, a false negative (missing an actual stroke patient) can be fatal, whereas a false alarm merely prompts routine clinical follow-up. Calibrating the decision threshold to 0.30 triaged 3x more at-risk individuals.🛠️ Data Pipeline & ArchitectureData Cleaning & Imputation: Imputed missing bmi entries using the dataset median and filtered non-informative identifiers.Feature Encoding: Applied one-hot encoding across categorical clinical indicators (gender, work_type, smoking_status, Residence_type, ever_married), preserving 15 operational features.Modeling: Trained a RandomForestClassifier with class_weight='balanced' and max_depth=10 to penalize minority class errors and prevent tree overfitting.Deployment: Interactive Streamlit web app providing real-time risk classification, data analytics, and model transparency tabs.📁 Repository StructurePlaintext├── Stoke_Prediction.ipynb              # Model training & threshold evaluation notebook
+├── app.py                              # Streamlit web application
+├── stroke_model.pkl                    # Serialized Random Forest model
+├── model_columns.pkl                   # Feature column list for schema alignment
+├── healthcare-dataset-stroke-data.csv  # Kaggle stroke dataset
+├── requirements.txt                    # Project dependencies
+├── app-preview.png                     # Application interface preview
+└── README.md                           # Project documentation
+💻 How to Run LocallyBash# 1. Clone the repository
+git clone [https://github.com/AbrishRizwan/stroke-risk-predictor.git](https://github.com/AbrishRizwan/stroke-risk-predictor.git)
 
-## Dataset & Approach
-
-- Public Kaggle stroke dataset — 5,110 patient records, ~4.87% stroke prevalence (highly imbalanced)
-- Applied **SMOTE** to address the class imbalance, since the dataset has very few actual stroke cases
-- Compared **Random Forest** and **Logistic Regression** models
-- Tuned the classification threshold down to **0.30** (instead of default 0.50) — since missing a real stroke case is far costlier than a false alarm, this prioritized high recall on actual positive cases
-- Built an interactive **Streamlit** UI with three tabs: risk predictor, analytics, and model info
-
-## Tech Stack
-
-- Python, pandas, NumPy
-- scikit-learn (Random Forest, Logistic Regression, SMOTE via imbalanced-learn)
-- Streamlit (UI)
-
-## How to Run Locally
-
-```bash
-git clone https://github.com/AbrishRizwan/stroke-risk-predictor.git
+# 2. Navigate to project directory
 cd stroke-risk-predictor
+
+# 3. Install dependencies
 pip install -r requirements.txt
+
+# 4. Run the Streamlit application
 streamlit run app.py
+👤 AuthorAbrish Rizwan — GitHub Profile
