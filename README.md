@@ -51,7 +51,7 @@ Lowering the threshold catches 60% of stroke cases instead of 18%, at the cost o
 ## Repository Structure
 
 ```text
-├── Stoke_Prediction.ipynb              # Model training & threshold evaluation notebook
+├── Stroke_Prediction.ipynb              # Model training & threshold evaluation notebook
 ├── app.py                              # Streamlit web application
 ├── stroke_model.pkl                    # Serialized Random Forest model
 ├── model_columns.pkl                   # Feature column list for schema alignment
