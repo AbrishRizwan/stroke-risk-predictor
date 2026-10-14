@@ -59,3 +59,27 @@ Lowering the threshold catches 60% of stroke cases instead of 18%, at the cost o
 ├── requirements.txt                    # Project dependencies
 ├── app-preview.png                     # Application interface preview
 └── README.md                           # Project documentation
+````
+## How to Run Locally
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/AbrishRizwan/stroke-risk-predictor.git
+
+# 2. Navigate to project directory
+cd stroke-risk-predictor
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Run the Streamlit application
+streamlit run app.py
+```
+
+## Disclaimer
+
+Educational project, not a medical diagnostic tool.
+
+## Author
+
+[Abrish Rizwan](https://github.com/AbrishRizwan)
