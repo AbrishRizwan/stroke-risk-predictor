@@ -4,49 +4,51 @@
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 
-An end-to-end machine learning web application that screens patient vitals and flags elevated stroke risk for early clinical triage.
+An end-to-end machine learning web application that predicts a patient's stroke risk from basic health indicators to flag high-risk cases early.
 
-🔗 **Live Application:** [https://stroke-risk-predictor-joqchpdvjmvvyszpeztkwr.streamlit.app](https://stroke-risk-predictor-joqchpdvjmvvyszpeztkwr.streamlit.app)
+🔗 **Live Application:** https://stroke-risk-predictor-joqchpdvjmvvyszpeztkwr.streamlit.app
 
 ![App Preview](app-preview.png)
 
 ---
 
-## 📌 Problem & Motivation
+## Problem
 
-Stroke is a leading cause of mortality and long-term disability worldwide. While routine clinical indicators (age, average glucose levels, BMI, hypertension) contain early predictive signals, medical datasets suffer from extreme class imbalance (~4.87% positive prevalence).
-
-Standard out-of-the-box classification models default to maximizing overall accuracy, leading to severe false negative rates (missed stroke patients). This project optimizes clinical sensitivity by calibrating decision thresholds to ensure high-risk cases are flagged early for screening.
+Stroke is a leading cause of death and long-term disability, but early risk flags from basic health indicators (age, glucose level, hypertension, BMI) can help prioritize patients for further screening. This app takes patient data as input and outputs a calibrated stroke risk prediction.
 
 ---
 
-## 📊 Model Performance & Threshold Tuning
+## Dataset & Approach
 
-Trained on 5,110 records from the Kaggle Stroke Dataset across 15 preprocessed features. Because class prevalence is low (~4.87%), accuracy alone is misleading: a trivial model predicting "No Stroke" for everyone achieves ~95.1% accuracy while detecting zero stroke cases.
-
-### Test Set Evaluation (1,022 Patients | 50 Positive Cases)
-
-| Metric | Default Baseline (0.50 Threshold) | Calibrated (0.30 Threshold) | Operational Impact |
-| --- | --- | --- | --- |
-| **Recall (Sensitivity)** | **18.0%** (9/50 caught) | **60.0%** (30/50 caught) | **+233% increase** in high-risk patient capture |
-| **Precision** | 18.0% | 14.0% | Acceptable trade-off for non-invasive screening |
-| **Overall Accuracy** | 92.0% | 80.4% | Reflects proactive flagging over passive guessing |
-| **ROC-AUC Score** | **0.80** | **0.80** | Robust discriminative ranking power across classes |
-
-> **Key Clinical Takeaway:** In preliminary risk screening, a false negative (missing an actual stroke patient) can be fatal, whereas a false alarm merely prompts routine clinical follow-up. Calibrating the decision threshold to **0.30** triaged 3x more at-risk individuals.
+- Public Kaggle stroke dataset — 5,110 records, 15 preprocessed features, ~4.87% stroke prevalence (highly imbalanced)
+- Handled class imbalance using `class_weight='balanced'` within Random Forest to penalize minority misclassification
+- Tuned the decision threshold from the default 0.50 to 0.30 to prioritize recall, since missing a real stroke case is costlier than a false alarm
+- Built an interactive Streamlit UI with three tabs: risk predictor, analytics, and model info
 
 ---
 
-## 🛠️ Data Pipeline & Architecture
+## Results
 
-- **Data Cleaning & Imputation:** Imputed missing `bmi` entries using the dataset median and filtered non-informative identifiers.
-- **Feature Encoding:** Applied one-hot encoding across categorical clinical indicators (`gender`, `work_type`, `smoking_status`, `Residence_type`, `ever_married`), preserving 15 operational features.
-- **Modeling:** Trained a **RandomForestClassifier** with `class_weight='balanced'` and `max_depth=10` to penalize minority class errors and prevent tree overfitting.
-- **Deployment:** Interactive Streamlit web app providing real-time risk classification, data analytics, and model transparency tabs.
+Test set: 1,022 patients (50 stroke cases), ROC AUC 0.80
+
+| Threshold | Accuracy | Stroke precision | Stroke recall |
+| :--- | :---: | :---: | :---: |
+| **0.50 (default)** | 0.92 | 0.18 | 0.18 |
+| **0.30 (tuned)** | 0.80 | 0.14 | 0.60 |
+
+Lowering the threshold catches 60% of stroke cases instead of 18%, at the cost of more false alarms and lower overall accuracy. Accuracy alone is misleading on this imbalanced dataset.
 
 ---
 
-## 📁 Repository Structure
+## Tech Stack
+
+- **Data Processing:** Python, pandas, NumPy
+- **Machine Learning:** scikit-learn (Random Forest, ROC-AUC)
+- **Deployment:** Streamlit, joblib
+
+---
+
+## Repository Structure
 
 ```text
 ├── Stoke_Prediction.ipynb              # Model training & threshold evaluation notebook
