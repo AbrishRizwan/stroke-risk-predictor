@@ -12,6 +12,7 @@ model_columns = joblib.load('model_columns.pkl')
 
 # --- Header Section ---
 st.title("Stroke Risk Predictor System")
+st.caption("Educational demo, not a medical diagnostic tool.")
 st.write("Please enter patient details below to evaluate stroke risk.")
 
 # --- Tab Layout Setup ---
@@ -67,11 +68,11 @@ with tab1:
 
         # 5. Display Result using 0.30 Threshold
         st.subheader("Prediction Analysis Result")
-        st.write(f"**Calculated Stroke Risk Probability:** {risk_probability*100:.2f}%")
+        st.write(f"**Model Risk Score:** {risk_probability*100:.1f}%")
         if risk_probability >= 0.30:
-            st.error("⚠️ **High Risk Alert:** Patient shows a high risk of stroke! Immediate medical advice recommended.")
+            st.error("⚠️ **Higher risk flagged** (score ≥ 0.30). Screening demo only; please consult a doctor for any health concern.")
         else:
-            st.success("✅ **Low Risk:** Patient stroke risk is currently within safe parameters.")
+            st.success("✅ **Lower risk score** (below 0.30). This does not rule out stroke; the model misses some cases.")
 
 # --- Tab 2: Data Analytics ---
 with tab2:
@@ -119,7 +120,7 @@ with tab3:
 
     # 1. Model Overview Cards
     col_info1, col_info2, col_info3 = st.columns(3)
-    col_info1.metric("Model Architecture", "Random Forest / Logistic Regression")
+    col_info1.metric("Model Architecture", "Random Forest (class-weighted)")
     col_info2.metric("Decision Threshold", "0.30 (30%)")
     col_info3.metric("Total Input Features", f"{len(model_columns)}")
 
