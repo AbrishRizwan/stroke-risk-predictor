@@ -34,32 +34,29 @@ with tab1:
     # Predict Button
     if st.button("Predict Stroke Risk", type= "primary"):
     # 1. Store Raw User Inputs
-        raw_data={
-        'age':age,
-        'hypertension':1 if hypertension=="Yes" else 0,
-        'ever_married': 1.0 if ever_married == "Yes" else 0.0,
-        'heart_disease': 1 if heart_disease == "Yes" else 0,
-        'Residence_type': 1.0 if residence_type == "Urban" else 0.0,
-        'avg_glucose_level': avg_glucose,
-        'bmi': bmi,
-        'gender': gender,
-        'work_type': work_type,
-        'smoking_status': smoking_status
-        
-     }
-     # 2. Convert to DataFrame
-        input_df=pd.DataFrame([raw_data])
+                final_input = pd.DataFrame(0, index=[0], columns=model_columns)
+        values = {
+            'age': age,
+            'hypertension': 1 if hypertension == "Yes" else 0,
+            'heart_disease': 1 if heart_disease == "Yes" else 0,
+            'avg_glucose_level': avg_glucose,
+            'bmi': bmi,
+            'gender_Male': 1 if gender == "Male" else 0,
+            'ever_married': 1 if ever_married == "Yes" else 0,
+            'ever_married_Yes': 1 if ever_married == "Yes" else 0,
+            'Residence_type': 1 if residence_type == "Urban" else 0,
+            'Residence_type_Urban': 1 if residence_type == "Urban" else 0,
+            f'work_type_{work_type}': 1,
+            f'smoking_status_{smoking_status}': 1,
+        }
+        for col, val in values.items():
+            if col in final_input.columns:
+                final_input[col] = val
     
-        # 3. One-Hot Encoding for multi-class categorical features
-        input_uncoded= pd.get_dummies(input_df,columns=['gender', 'work_type', 'smoking_status'], drop_first=True,dtype=int)
-     
-        # 4. Align with Model Columns (Missing columns set to 0)
-        final_input=input_uncoded.reindex(columns=model_columns,fill_value=0)
-    
-        # 5. Predict Probability
+        #  Predict Probability
         risk_probability=model.predict_proba(final_input)[0][1]
     
-        # 6. Display Result using 0.30 Threshold
+        #  Display Result using 0.30 Threshold
         st.subheader("Prediction Analysis Result")
         st.write(f"**Calculated Stroke Risk Probability:**{risk_probability*100:.2f}%")
         if risk_probability >= 0.30:
