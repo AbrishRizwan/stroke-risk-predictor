@@ -35,7 +35,7 @@ with tab1:
     if st.button("Predict Stroke Risk", type= "primary"):
     # 1. Store Raw User Inputs
                 final_input = pd.DataFrame(0, index=[0], columns=model_columns)
-        values = {
+                values = {
             'age': age,
             'hypertension': 1 if hypertension == "Yes" else 0,
             'heart_disease': 1 if heart_disease == "Yes" else 0,
