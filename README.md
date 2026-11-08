@@ -14,7 +14,7 @@ An end-to-end machine learning web application that predicts a patient's stroke 
 
 ## Problem
 
-Stroke is a leading cause of death and long-term disability, but early risk flags from basic health indicators (age, glucose level, hypertension, BMI) can help prioritize patients for further screening. This app takes patient data as input and outputs a calibrated stroke risk prediction.
+Stroke is a leading cause of death and long-term disability, but early risk flags from basic health indicators (age, glucose level, hypertension, BMI) can help prioritize patients for further screening. This app takes patient data as input and outputs a model risk score.
 
 ---
 
@@ -29,15 +29,21 @@ Stroke is a leading cause of death and long-term disability, but early risk flag
 
 ## Results
 
-Test set: 1,022 patients (50 stroke cases), ROC AUC 0.80
-
-| Threshold | Accuracy | Stroke precision | Stroke recall |
-| :--- | :---: | :---: | :---: |
-| **0.50 (default)** | 0.92 | 0.18 | 0.18 |
-| **0.30 (tuned)** | 0.80 | 0.14 | 0.60 |
+| Threshold | Accuracy | Stroke precision | Stroke recall | Patients flagged |
+| :--- | :---: | :---: | :---: | :---: |
+| 0.20 | 0.70 | 0.12 | 0.80 | 338 |
+| **0.30 (chosen)** | 0.80 | 0.14 | 0.60 | 210 |
+| 0.40 | 0.88 | 0.18 | 0.40 | 114 |
+| 0.50 (default) | 0.92 | 0.18 | 0.18 | 50 |
 
 Lowering the threshold catches 60% of stroke cases instead of 18%, at the cost of more false alarms and lower overall accuracy. Accuracy alone is misleading on this imbalanced dataset.
 
+## ⚠️ Limitations
+- The test set has only 50 stroke cases, so recall at 0.30 (30 of 50 = 60%) is a noisy estimate (roughly 46% to 72%)
+- The 0.30 threshold was chosen by looking at test-set results, so the reported numbers are slightly optimistic
+- At 0.30, precision is 14%: most alerts are false alarms (still about 3x better than random, since prevalence is about 4.9%)
+- class_weight='balanced' inflates predicted probabilities, so the output is a risk score, not a calibrated probability
+- No hyperparameter search or cross-validation; educational demo only
 ---
 
 ## Tech Stack
